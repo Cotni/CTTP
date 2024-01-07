@@ -1,10 +1,13 @@
 
-#include <testing.hpp>
-#include <game/KMP/Controller.hpp>
-
-KMP::KTPTHolder *SecondaryKTPT(KMP::Controller *controller, u32 idx){
-    KMP::KTPTHolder *holder = controller->GetKTPTHolder(1);
-    if(holder == NULL) holder = controller->GetKTPTHolder(0);
-    return holder;
+#include <hooks.hpp>
+#include <types.hpp>
+void OpaTest() {
+    return;
 }
-kmCall(0x807ea670, SecondaryKTPT);
+kmCall(0x80001500, OpaTest);
+
+
+int OpaTest2() {
+    return 2;
+}
+kmCall(0x805201ac, OpaTest2);

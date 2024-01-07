@@ -2,24 +2,28 @@
 SETLOCAL EnableDelayedExpansion
 
 cls
+del build\*.o
 
 :: Destination (change as necessary)
 SET "SOURCE=CTTP"
-SET "RIIVO=D:\Documents\Dolphin Emulator\Load\CTTP"
-SET "RELEASE=D:\Modding\Coding\Kamek\CTTP\releases"
+SET "RIIVO=C:\Users\admin\Documents\Dolphin Emulator\Load\CTTP"
+SET "RELEASE=C:\Modding\Coding\Kamek\CTTP\releases"
 echo %RIIVO%
+
 
 :: CPP compilation settings
 SET CC="../engine/cw/mwcceppc.exe"
-SET CFLAGS=-I- -i "../engine/engine" -i "../engine/source" -i "../engine/source/game" -i code -gcc_extensions on -Cpp_exceptions off -enum int -O4,s -use_lmw_stmw on -fp hard -rostr -sdata 0 -sdata2 0 -maxerrors 1 -func_align 4 -rtti off
+SET CFLAGS=-I- -i "../engine/engine" -i "../engine/source" -i "../engine/source/game" -i code -i "../Pulsar" -i "../Pulsar/Pulsar"^
+ -opt all -inline auto -enum int -proc gekko -fp hard -sdata 0 -sdata2 0 -maxerrors 1 -func_align 4
 SET DEFINE=
 
 :: CPP Sources
 SET CPPFILES=
 for /R code %%f in (*.cpp) do SET "CPPFILES=%%f !CPPFILES!"
+for /R C:\Modding\Coding\Kamek\Pulsar\Pulsar %%f in (*.cpp) do SET "CPPFILES=%%f !CPPFILES!"
 
 :: Compile CPP
-%CC% %CFLAGS% -c -o "build/kamek.o" "D:\Modding\Coding\Kamek\Engine\engine\kamek.cpp"
+%CC% %CFLAGS% -c -o "build/kamek.o" "C:\Modding\Coding\Kamek\Engine\engine\kamek.cpp"
 
 SET OBJECTS=
 FOR %%H IN (%CPPFILES%) DO (
@@ -29,16 +33,13 @@ FOR %%H IN (%CPPFILES%) DO (
 )
 
 :: Link
-echo Linking...
-"../engine/KamekSource/bin/Debug/Kamek" "build/kamek.o" %OBJECTS% -dynamic -externals="../engine/source/symbols.txt" -versions="../engine/source/versions.txt" -output-kamek=build\$KV$.bin
-
+echo Linking... %time%
+"../engine/Kamek" "build/kamek.o" %OBJECTS% -dynamic -externals="../engine/source/symbols.txt" -versions="../engine/source/versions.txt" -output-kamek=build\$KV$.bin >nul
 
 if %ErrorLevel% equ 0 (
-    xcopy /Y build\*.bin "%RELEASE%\Binaries"
-	del build\*.o
-
-    cd "D:\Modding\Coding\Kamek\CTTP\resources"
-    xcopy /Y /S "%RELEASE%\Binaries" "%RIIVO%\Binaries"
+    xcopy /Y build\*.bin "%RELEASE%\Binaries\" >nul
+    cd "C:\Modding\Coding\Kamek\%SOURCE%\resources\" >nul
+    xcopy /Y /S "%RELEASE%\Binaries" "%RIIVO%\Binaries\" >nul
     echo Binaries copied
 )
 

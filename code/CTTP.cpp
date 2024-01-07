@@ -1,37 +1,39 @@
-#include <SkillIssuePack.hpp>
-#include <core/rvl/ipc/ipc.hpp>
+#include <CTTP.hpp>
+#include <Pulsar/Settings/UI/SettingsPanel.hpp>
+#include <Pulsar/IO/IO.hpp>
 
-//Create Mod Folders
+namespace CTTP {
+Pulsar::System::Inherit CTTPCreate(System::Create);
 
-
-namespace CTTP{
-
-using IOS::Open2ndInst;
-asm s32 Open(char *path, IOS::Mode mode){ //wiimmfi patch...
-    ASM(
-        nofralloc;
-        stwu sp, -0x0020 (sp);
-        b Open2ndInst;
-    )
+void System::SetUserInfo(Pulsar::Network::ResvInfo::UserInfo& userInfo) {
+    userInfo.info[0] = Pulsar::IO::sInstance->type == Pulsar::IOType_DOLPHIN;
 }
-u32 winningCourse = -1;
-}//namespace SIP
 
-void CreateFolders(){
-    CTTP::FolderHandler *folder = CTTP::FolderHandler::Create();
-    folder->CreateFolder(CTTP::modFolder);
-    folder->CreateFolder(CTTP::ghostFolder);
-    delete(folder);
+bool System::CheckUserInfo(const Pulsar::Network::ResvInfo::UserInfo& userInfo) {
+    return true; //!userInfo.info[0];
 }
-BootHook Folders(CreateFolders, HIGH);
 
-void CTTP::ChangeImage(LayoutUIControl *control, const char *paneName, const char *tplName){
-   void *tplRes = control->layout.resources->multiArcResourceAccessor.GetResource(res::RESOURCETYPE_TEXTURE, tplName);
-   control->layout.GetPaneByName(paneName)->GetMaterial()->GetTexMapAry()->ReplaceImage((TPLPalettePtr) tplRes);
-};
+void System::AfterInit() {
+    ExtProcessMeter::Create();
 
-//Unlock Everything Without Save (_tZ)
-kmWrite32(0x80549974, 0x38600001);
+    Pulsar::UI::SettingsPanel::pageCount++;
 
-//Skip ESRB page
-kmWriteRegionInstruction(0x80604094, 0x4800001c, 'E');
+    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 2; //debug and perf mon
+    Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][0] = 4; //disabled, full, light, offroad
+    Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][1] = 2; //disabled, enabled
+
+    Pulsar::UI::SettingsPanel::scrollerCount[SETTINGSTYPE_DEBUG] = 1;
+    Pulsar::UI::SettingsPanel::optionsPerPagePerScroller[SETTINGSTYPE_DEBUG][0] = 4;
+
+    //u32 raceRadioCount = Pulsar::UI::SettingsPanel::radioButtonCount[Pulsar::SETTINGSTYPE_RACE];
+    //Pulsar::UI::SettingsPanel::radioButtonCount[Pulsar::SETTINGSTYPE_RACE] = raceRadioCount + 1;
+    //Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[Pulsar::SETTINGSTYPE_RACE][raceRadioCount] = 2;
+
+    //u32 scrollerCount = Pulsar::UI::SettingsPanel::scrollerCount[Pulsar::SETTINGSTYPE_RACE];
+    //Pulsar::UI::SettingsPanel::scrollerCount[Pulsar::SETTINGSTYPE_RACE] = scrollerCount + 1;
+    //Pulsar::UI::SettingsPanel::optionsPerPagePerScroller[Pulsar::SETTINGSTYPE_RACE][scrollerCount] = 4;
+
+
+}
+
+}//namespace CTTP
