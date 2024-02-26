@@ -12,7 +12,7 @@ struct A {
     float c;
     template<typename T>
     u32 GetInt() {
-        return this->*T::offset;
+        return this->*T::offsetz;
     }
 };
 

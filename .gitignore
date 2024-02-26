@@ -3,7 +3,7 @@
 /cw
 /.vscode
 releases/
-/testing
+testing/
 demangler.py
 
 
@@ -41,3 +41,5 @@ BuildDolphinPack.bat
 BuildMyPack.bat
 BuildLoader.bat
 BuildTesting.bat
+testing/testing.hpp
+demangler.py
