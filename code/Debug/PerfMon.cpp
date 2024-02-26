@@ -1,14 +1,14 @@
 #include <core/rvl/OS/OS.hpp>
-#include <game/Objects/ObjectsMgr.hpp>
-#include <game/Kart/KartManager.hpp>
-#include <game/Item/ItemManager.hpp>
-#include <game/3D/Effect/EffectMgr.hpp>
-#include <game/Lakitu/LakituManager.hpp>
-#include <game/UI/SectionMgr/SectionMgr.hpp>
-#include <game/UI/Ctrl/CtrlRace/CtrlRaceTime.hpp>
+#include <MarioKartWii/Objects/ObjectsMgr.hpp>
+#include <MarioKartWii/Kart/KartManager.hpp>
+#include <MarioKartWii/Item/ItemManager.hpp>
+#include <MarioKartWii/3D/Effect/EffectMgr.hpp>
+#include <MarioKartWii/Lakitu/LakituManager.hpp>
+#include <MarioKartWii/UI/SectionMgr/SectionMgr.hpp>
+#include <MarioKartWii/UI/Ctrl/CtrlRace/CtrlRaceTime.hpp>
 #include <CTTP.hpp>
 #include <Debug/PerfMon.hpp>
-#include <Pulsar/Settings/Settings.hpp>
+#include <PulsarEngine/Settings/Settings.hpp>
 
 namespace CTTP {
 
@@ -17,12 +17,6 @@ kmWrite32(0x800092bc, 0x60000000);
 ExtProcessMeter* ExtProcessMeter::Create() {
 
     ExtProcessMeter* meter = new ExtProcessMeter();
-
-    meter->xOrigin = 28.0f;
-    meter->yOrigin = 1.0f;
-    meter->xSize = 60.0f;
-    meter->ySize = 0.75f;
-
     meter->setVisible(false);
     return meter;
     //List_Remove(&meter->processBarList, &meter->bgBar);
@@ -101,6 +95,7 @@ void EffectsMeasurement(EffectsMgr* effectsMgr) {
 }
 kmCall(0x80554ce8, EffectsMeasurement);
 
+/*
 void LakituMeasurement(Lakitu::Manager* lakituMgr) {
     ExtProcessMeter* meter = static_cast<ExtProcessMeter*>(RKSystem::mInstance.processMeter);
     meter->lakituBar.measureBegin();
@@ -122,11 +117,12 @@ void UIEndMeasurement(Section* section, u32 r4) {
     meter->uiBar.measureEnd();
 }
 kmCall(0x805b4300, UIEndMeasurement);
+*/
 
 void ToggleMonitor() {
     bool isOnline = CtrlRaceTime::IsOnlineVS(*RaceData::sInstance);
     bool isVisible = true;
-    if (!isOnline) isVisible = !Pulsar::Settings::GetSettingValue(static_cast<Pulsar::SettingsType>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_PERFMON);
+    if (!isOnline) isVisible = !Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_PERFMON);
     RKSystem::mInstance.processMeter->EGG::ProcessMeter::setVisible(isVisible);
     System::Get().droppedFrames = 0;
 }

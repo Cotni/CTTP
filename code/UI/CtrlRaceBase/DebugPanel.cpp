@@ -1,10 +1,10 @@
-#include <game/Item/ItemManager.hpp>
-#include <game/Race/RaceInfo/RaceInfo.hpp>
-#include <game/UI/Ctrl/CtrlRace/CtrlRaceTime.hpp>
+#include <MarioKartWii/Item/ItemManager.hpp>
+#include <MarioKartWii/Race/RaceInfo/RaceInfo.hpp>
+#include <MarioKartWii/UI/Ctrl/CtrlRace/CtrlRaceTime.hpp>
 #include <UI/CtrlRaceBase/DebugPanel.hpp>
-#include <Pulsar/SlotExpansion/CupsDef.hpp>
-#include <Pulsar/Settings/Settings.hpp>
-#include <Pulsar/IO/IO.hpp>
+#include <PulsarEngine/SlotExpansion/CupsConfig.hpp>
+#include <PulsarEngine/Settings/Settings.hpp>
+#include <PulsarEngine/IO/IO.hpp>
 
 
 namespace CTTP {
@@ -17,14 +17,14 @@ u32 CtrlRaceDebug::Count() {
     bool isVisible;
     if (isBattle) isVisible = false;
     else if (isOnlineVS) isVisible = true;
-    else isVisible = Pulsar::Settings::GetSettingValue(static_cast<Pulsar::SettingsType>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_PANEL) != DEBUGSETTING_PANEL_DISABLED;
+    else isVisible = Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_PANEL) != DEBUGSETTING_PANEL_DISABLED;
     return isVisible;
 }
 
 void CtrlRaceDebug::Create(Page& page, u32 index, u32 count) {
     CtrlRaceDebug* debug = new(CtrlRaceDebug);
     page.AddControl(index, *debug, 0);
-    DebugSettingPANEL type = static_cast<DebugSettingPANEL>(Pulsar::Settings::GetSettingValue(static_cast<Pulsar::SettingsType>(SETTINGSTYPE_DEBUG),
+    DebugSettingPANEL type = static_cast<DebugSettingPANEL>(Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG),
         SETTINGDEBUG_RADIO_PANEL));
 
     GameMode mode = RaceData::sInstance->racesScenario.settings.gamemode;
@@ -124,7 +124,7 @@ void CtrlRaceDebug::OnUpdate() {
     for (u32 i = 0; i < length; ++i) if (debugPanel[i] >= 0x30 && debugPanel[i] <= 0x39) debugPanel[i] += 0x2430;
     TextInfo text;
     text.strings[0] = debugPanel;
-    this->SetMsgId(Pulsar::UI::BMG_TEXT, &text);
+    this->SetMessage(Pulsar::UI::BMG_TEXT, &text);
 }
 }//namespace UI
 }//namespace CTTP

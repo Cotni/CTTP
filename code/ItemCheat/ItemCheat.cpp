@@ -1,8 +1,8 @@
 #include <kamek.hpp>
-#include <game/Input/InputManager.hpp>
-#include <game/Race/RaceInfo/RaceInfo.hpp>
-#include <game/Item/ItemManager.hpp>
-#include <game/UI/SectionMgr/SectionMgr.hpp>
+#include <MarioKartWii/Input/InputManager.hpp>
+#include <MarioKartWii/Race/RaceInfo/RaceInfo.hpp>
+#include <MarioKartWii/Item/ItemManager.hpp>
+#include <MarioKartWii/UI/SectionMgr/SectionMgr.hpp>
 #include <CTTP.hpp>
 
 namespace CTTP {
@@ -85,30 +85,14 @@ ItemId WriteItem(u32 hudSlotId) {
         const s32 v = quantizedCSticks[1];
 
         //u32 idx;
-        if (v >= 118) {
-            ret = static_cast<ItemId>(items[0]);
-        }
-        else if (v >= 49 && h >= 49) {
-            ret = static_cast<ItemId>(items[1]);
-        }
-        else if (h >= 118) {
-            ret = static_cast<ItemId>(items[2]);
-        }
-        else if (-v >= 49 && h >= 49) {
-            ret = static_cast<ItemId>(items[3]);
-        }
-        else if (-v >= 118) {
-            ret = static_cast<ItemId>(items[4]);
-        }
-        else if (-v >= 49 && -h >= 49) {
-            ret = static_cast<ItemId>(items[5]);
-        }
-        else if (-h >= 118) {
-            ret = static_cast<ItemId>(items[6]);
-        }
-        else if (v >= 49 && -h >= 49) {
-            ret = static_cast<ItemId>(items[7]);
-        }
+        if (v >= 118) ret = static_cast<ItemId>(items[0]);
+        else if (v >= 49 && h >= 49) ret = static_cast<ItemId>(items[1]);
+        else if (h >= 118) ret = static_cast<ItemId>(items[2]);
+        else if (-v >= 49 && h >= 49) ret = static_cast<ItemId>(items[3]);
+        else if (-v >= 118) ret = static_cast<ItemId>(items[4]);
+        else if (-v >= 49 && -h >= 49) ret = static_cast<ItemId>(items[5]);
+        else if (-h >= 118) ret = static_cast<ItemId>(items[6]);
+        else if (v >= 49 && -h >= 49) ret = static_cast<ItemId>(items[7]);
         /*
 
         for (int i = 0; i < 8; ++i) {

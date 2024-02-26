@@ -1,13 +1,13 @@
+#include <kamek.hpp>
+#include <MarioKartWii/Objects/KCL/Aurora.hpp>
 
-#include <hooks.hpp>
-#include <types.hpp>
-void OpaTest() {
-    return;
+void DisableBoostRamp(KCLTypeHolder* holder, KCLBitfield bitfield, u16 kclFlag, float distance) {
+    register Objects::Aurora* aurora;
+    asm(mr aurora, r29;);
+    if (aurora->gobj.raw->settings[0] != 0) {
+        bitfield = KCL_BITFIELD_ROAD2;
+        kclFlag = 0xf7; //flag 0x17 variant 7 for sfx
+    }
+    holder->ApplyFlagAndRegisterEntry(bitfield, kclFlag, distance);
 }
-kmCall(0x80001500, OpaTest);
-
-
-int OpaTest2() {
-    return 2;
-}
-kmCall(0x805201ac, OpaTest2);
+kmCall(0x807fc198, DisableBoostRamp);

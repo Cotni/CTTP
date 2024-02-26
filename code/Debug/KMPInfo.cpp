@@ -1,11 +1,11 @@
 #include <kamek.hpp>
 #include <core/rvl/gx/GX.hpp>
-#include <game/KMP/KMPManager.hpp>
-#include <game/3D/Scn/Renderer.hpp>
-#include <game/3D/Camera/RaceCamera.hpp>
-#include <game/Item/ItemManager.hpp>
+#include <MarioKartWii/KMP/KMPManager.hpp>
+#include <MarioKartWii/3D/Scn/Renderer.hpp>
+#include <MarioKartWii/3D/Camera/RaceCamera.hpp>
+#include <MarioKartWii/Item/ItemManager.hpp>
 #include <CTTP.hpp>
-#include <Pulsar/Settings/Settings.hpp>
+#include <PulsarEngine/Settings/Settings.hpp>
 
 namespace CTTP {
 struct Quad {
@@ -26,7 +26,7 @@ struct Quad {
 };
 
 void DrawQuad(const Quad& quad, bool outline) {
-    GXBegin(GX_QUADS, GX_VTXFMT0, 4);
+    GX::Begin(GX::GX_QUADS, GX::GX_VTXFMT0, 4);
     {
         GX_Position3f32(quad.leftBottomPoint.x, quad.rightTopPoint.y, quad.leftBottomPoint.z);
         GX_Color1u32(quad.color);
@@ -42,8 +42,8 @@ void DrawQuad(const Quad& quad, bool outline) {
     }
     GXEnd();
     if (outline) {
-        GXSetLineWidth(20, GX_TO_ZERO);
-        GXBegin(GX_LINESTRIP, GX_VTXFMT0, 5);
+        GX::SetLineWidth(20, GX::GX_TO_ZERO);
+        GX::Begin(GX::GX_LINESTRIP, GX::GX_VTXFMT0, 5);
         {
             GX_Position3f32(quad.leftBottomPoint.x, quad.rightTopPoint.y, quad.leftBottomPoint.z);
             GX_Color1u32(quad.outlineColor);
@@ -66,27 +66,27 @@ void DrawQuad(const Quad& quad, bool outline) {
 }
 
 void SetupGX() {
-    GXSetCullMode(GX_CULL_NONE); //OK
-    GXSetZMode(true, GX_LEQUAL, true); //OK
-    //GXSetZCompLoc(false);
-    //GXSetAlphaCompare(GX_ALWAYS, 0, GX_AOP_OR, GX_ALWAYS, false);
-    GXSetBlendMode(GX_BM_BLEND, GX_BL_INVSRCALPHA, GX_BL_INVDSTALPHA, GX_LO_OR); //OK
-    //GXSetAlphaUpdate(true);
-    //GXSetColorUpdate(true);
-    //GXColor color = { 0xFFFFFFFF };
-    //GXSetFog(GX_FOG_NONE, 0.0f, 0.0f, 0.0f, 0.0f, color);
+    GX::SetCullMode(GX::GX_CULL_NONE); //OK
+    GX::SetZMode(true, GX::GX_LEQUAL, true); //OK
+    //GX::SetZCompLoc(false);
+    //GX::SetAlphaCompare(GX::GX_ALWAYS, 0, GX::GX_AOP_OR, GX::GX_ALWAYS, false);
+    GX::SetBlendMode(GX::GX_BM_BLEND, GX::GX_BL_INVSRCALPHA, GX::GX_BL_INVDSTALPHA, GX::GX_LO_OR); //OK
+    //GX::SetAlphaUpdate(true);
+    //GX::SetColorUpdate(true);
+    //GX::Color color = { 0xFFFFFFFF };
+    //GX::SetFog(GX::GX_FOG_NONE, 0.0f, 0.0f, 0.0f, 0.0f, color);
 
-    GXClearVtxDesc();
-    GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
-    GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, false);
-    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_POS_XYZ, GX_RGBA8, false);
-    //GXSetNumChans(1);
-    //GXSetNumTexGens(0);
-    //GXSetNumTevStages(1);
-    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
-    GXSetChanCtrl(GX_COLOR0A0, false, GX_SRC_VTX, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
-    GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GX::ClearVtxDesc();
+    GX::SetVtxDesc(GX::GX_VA_POS, GX::GX_DIRECT);
+    GX::SetVtxDesc(GX::GX_VA_CLR0, GX::GX_DIRECT);
+    GX::SetVtxAttrFmt(GX::GX_VTXFMT0, GX::GX_VA_POS, GX::GX_POS_XYZ, GX::GX_F32, false);
+    GX::SetVtxAttrFmt(GX::GX_VTXFMT0, GX::GX_VA_CLR0, GX::GX_POS_XYZ, GX::GX_RGBA8, false);
+    //GX::SetNumChans(1);
+    //GX::SetNumTexGens(0);
+    //GX::SetNumTevStages(1);
+    GX::SetTevOrder(GX::GX_TEVSTAGE0, GX::GX_TEXCOORD_NULL, GX::GX_TEXMAP_NULL, GX::GX_COLOR0A0);
+    GX::SetChanCtrl(GX::GX_COLOR0A0, false, GX::GX_SRC_VTX, GX::GX_SRC_VTX, 0, GX::GX_DF_NONE, GX::GX_AF_NONE);
+    GX::SetTevOp(GX::GX_TEVSTAGE0, GX::GX_PASSCLR);
 }
 
 void DrawCylinder(const Vec3& point, float radius, float height, u32 color) {
@@ -132,7 +132,7 @@ void DrawKMPInfo(RendererWithModels& renderer, u32 projType, u32 r5) {
 
         const u8 playerId = static_cast<RaceCamera*>(renderer.screen.perspectiveCam->camera)->playerId;
         const KMP::Manager* kmp = KMP::Manager::sInstance;
-        const u8 kmpSetting = Pulsar::Settings::GetSettingValue(static_cast<Pulsar::SettingsType>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_SCROLL_KMP);
+        const u8 kmpSetting = Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_SCROLL_KMP);
         if (kmpSetting == DEBUGSETTING_KMP_ALLCPS || kmpSetting == DEBUGSETTING_KMP_KEYCPS) {
             for (int i = 0; i < kmp->ckptSection->pointCount; ++i) {
                 const CKPT& cur = *kmp->GetHolder<CKPT>(i)->raw;

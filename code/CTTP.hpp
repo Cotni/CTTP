@@ -1,22 +1,29 @@
 #ifndef _CTTP_
 #define _CTTP_
-#include <game/File/RKG.hpp>
-#include <game/Race/racedata.hpp>
-#include <Pulsar/PulsarSystem.hpp>
-#include <Pulsar/SlotExpansion/CupsDef.hpp>
-#include <Race/ItemCheatStream.hpp>
+#include <MarioKartWii/File/RKG.hpp>
+#include <MarioKartWii/Race/racedata.hpp>
+#include <PulsarEngine/PulsarSystem.hpp>
+#include <PulsarEngine/Ghost/GhostManager.hpp>
+#include <PulsarEngine/SlotExpansion/CupsConfig.hpp>
+#include <ItemCheat/ItemCheatStream.hpp>
 #include <Debug/PerfMon.hpp>
 
 namespace CTTP {
+
+
+
 class System : public Pulsar::System {
+    static void CheckGhostCheatStatus(const RKG& decompressed, Pulsar::Ghosts::Manager::CBTiming timing, int idx);
+
 public:
     static Pulsar::System* Create() { return new System; }
     static System& Get() { return static_cast<System&>(*sInstance); }
+    static const u32 magic = 'CTTP';
     void SetUserInfo(Pulsar::Network::ResvInfo::UserInfo& userInfo) override;
     bool CheckUserInfo(const Pulsar::Network::ResvInfo::UserInfo& userInfo) override;
     void AfterInit() override;
     static bool IsItemHackSituation() {
-        bool isCTs = !Pulsar::CupsDef::IsRegsSituation();
+        bool isCTs = !Pulsar::CupsConfig::IsRegsSituation();
         const RaceData* racedata = RaceData::sInstance;
         GameMode gamemode = racedata->racesScenario.settings.gamemode;
         return isCTs && (gamemode < 7 || gamemode > 10);
@@ -25,6 +32,20 @@ public:
     ItemId cheatedItem[4];
     ItemCheatStream streams[4];
     u32 droppedFrames;
+    bool isCheatedGhost[38];
+
+};
+
+struct RKGSection {
+    RKGSection() : magic(System::magic) {
+        padding[0] = 0;
+        padding[1] = 0;
+        padding[2] = 0;
+    };
+    u32 magic;
+    bool hadItemBoxes;
+    u8 padding[3];
+    u32 seed;
 };
 
 enum SettingsType {

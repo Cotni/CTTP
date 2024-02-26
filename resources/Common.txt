@@ -277,4 +277,5 @@
   6801 = All Checkpoints will be displayed on the screen.
   6802 = Key Checkpoints will be displayed on the screen.
   6803 = Item Points will be displayed on the screen.
-
+  15000 = Can't Race Cheated Ghost
+  15001 = Can't Watch Cheated Multi-ghost

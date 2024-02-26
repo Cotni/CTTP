@@ -23,9 +23,9 @@ public:
         physicsBar(nw4r::ut::Color(0x00FF50FF), 4.0f),
         objsBar(nw4r::ut::Color(0x50500050), 5.0f),
         itemsBar(nw4r::ut::Color(0xb6ccf050), 6.0f),
-        effectsBar(nw4r::ut::Color(0x00505050), 7.0f),
-        lakituBar(nw4r::ut::Color(0x00005050), 8.0f),
-        uiBar(nw4r::ut::Color(0x00505050), 9.0f)
+        effectsBar(nw4r::ut::Color(0x00505050), 7.0f)
+        //lakituBar(nw4r::ut::Color(0x00005050), 8.0f),
+        //uiBar(nw4r::ut::Color(0x00505050), 9.0f)
     {
         bgBar.color = 0x000000FF;
         this->append(&sceneMgrBar);
@@ -33,16 +33,16 @@ public:
         this->append(&objsBar);
         this->append(&itemsBar);
         this->append(&effectsBar);
-        this->append(&lakituBar);
-        this->append(&uiBar);
+        //this->append(&lakituBar);
+        //this->append(&uiBar);
     }
     EGG::ProcessMeter::CpuMonitor sceneMgrBar;
     EGG::ProcessMeter::CpuMonitor physicsBar;
     EGG::ProcessMeter::CpuMonitor objsBar;
     EGG::ProcessMeter::CpuMonitor itemsBar;
     EGG::ProcessMeter::CpuMonitor effectsBar;
-    EGG::ProcessMeter::CpuMonitor lakituBar;
-    EGG::ProcessMeter::CpuMonitor uiBar;
+    //EGG::ProcessMeter::CpuMonitor lakituBar;
+    //EGG::ProcessMeter::CpuMonitor uiBar;
 };
 void DisableMonitor();
 

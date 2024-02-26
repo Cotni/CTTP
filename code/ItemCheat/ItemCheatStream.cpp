@@ -1,8 +1,9 @@
 #include <core/nw4r/ut/Misc.hpp>
-#include <game/UI/Page/Other/GhostManager.hpp>
-#include <game/UI/SectionMgr/SectionMgr.hpp>
-#include <Race/ItemCheatStream.hpp>
+#include <MarioKartWii/UI/Page/Other/GhostManager.hpp>
+#include <MarioKartWii/UI/SectionMgr/SectionMgr.hpp>
+#include <ItemCheat/ItemCheatStream.hpp>
 #include <CTTP.hpp>
+#include <UI/CTTPUI.hpp>
 
 namespace CTTP {
 

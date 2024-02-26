@@ -2,7 +2,7 @@
 #define _ITEMCHEATSTREAM_
 
 #include <kamek.hpp>
-#include <game/Input/InputManager.hpp>
+#include <MarioKartWii/Input/InputManager.hpp>
 
 namespace CTTP {
 

@@ -1,9 +1,9 @@
 #ifndef _DEBUGPANEL_
 #define _DEBUGPANEL_
 #include <kamek.hpp>
-#include <game/Kart/KartManager.hpp>
-#include <game/UI/SectionMgr/SectionMgr.hpp>
-#include <Pulsar/UI/CtrlRaceBase/CustomCtrlRaceBase.hpp>
+#include <MarioKartWii/Kart/KartManager.hpp>
+#include <MarioKartWii/UI/SectionMgr/SectionMgr.hpp>
+#include <PulsarEngine/UI/CtrlRaceBase/CustomCtrlRaceBase.hpp>
 #include <CTTP.hpp>
 
 //Debug Panel
