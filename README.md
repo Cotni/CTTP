@@ -1,6 +1,6 @@
 # CTTP
 
-CTTP is a [Pulsar](https://github.com/MelgMKW/Pulsar)-based Mario Kart Wii custom track testing environment.
+CTTP (Custom Track Testing Pack) is a [Pulsar](https://github.com/MelgMKW/Pulsar)-based Mario Kart Wii custom track testing environment.
 Along with all Pulsar features, it provides additional debug ones:
 
 - A performance monitor who measures various game processes. From bottom to top: total frame time, SceneManager::Draw, GPU, SceneManager::calc, physics, objects, items, effects. 
