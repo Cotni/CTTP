@@ -15,3 +15,5 @@ On Dolphin only:
 - Easy ghost insertion. The mod should be run once, and then ghosts should be put in "Dolphin Emulator\Wii\shared2\Pulsar\CTTP\Ghosts" with any file name under 13 characters. They'll display in-game over their correct vanilla track.
 
 Any Pulsar config will work on CTTP, but only config.pul should be changed. If you want to build your own config, use the "Build Config Only" of the Pulsar Pack Creator Software.
+
+CTTP code.pul can only be built by including Pulsar's engine. 
