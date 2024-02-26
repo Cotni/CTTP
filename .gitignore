@@ -3,11 +3,10 @@
 /cw
 /.vscode
 releases/
-main/
-projects/DolphinPack
-projects/MyPack
-projects/testing
-projects/SkillIssuePack/Resources
+/testing
+demangler.py
+
+
 
 # Compiled Object files
 *.slo
