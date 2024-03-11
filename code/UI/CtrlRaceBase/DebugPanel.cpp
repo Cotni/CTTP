@@ -65,9 +65,9 @@ void CtrlRaceDebug::OnUpdate() {
     const u8 ITPT = Item::Manager::sInstance->players[id].itemPoint.ITPT;
 
     const Kart::Pointers& pointers = Kart::Manager::sInstance->players[id]->pointers;
-    const KartSound* sound = pointers.kartSound;
-    const u16 kclFlag = sound->kclFlag;
-    const u16 kclVariant = sound->variant;
+    const Audio::KartActor* kartActor = pointers.kartActor;
+    const u16 kclFlag = kartActor->kclFlag;
+    const u16 kclVariant = kartActor->variant;
 
     const char* trick = "Can't  Trick";
     const u32 frontCollisionType = pointers.wheels[0]->wheelPhysics->hitboxGroup->collisionData.types;

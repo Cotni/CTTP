@@ -9,7 +9,7 @@ namespace CTTP {
 Pulsar::System::Inherit CTTPCreate(System::Create);
 
 void System::SetUserInfo(Pulsar::Network::ResvInfo::UserInfo& userInfo) {
-    userInfo.info[0] = Pulsar::IO::sInstance->type == Pulsar::IOType_DOLPHIN;
+    userInfo.info[0] = Pulsar::IO::sInstance->type == Pulsar::IOType_RIIVO;
 }
 
 bool System::CheckUserInfo(const Pulsar::Network::ResvInfo::UserInfo& userInfo) {
