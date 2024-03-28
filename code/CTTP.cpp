@@ -27,9 +27,10 @@ void System::AfterInit() {
 
     Pulsar::UI::SettingsPanel::pageCount++;
 
-    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 2; //debug and perf mon
+    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 3; //debug, perf mon, item cheats
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][0] = 4; //disabled, full, light, offroad
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][1] = 2;
+    Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][2] = 2;
 
     Pulsar::UI::SettingsPanel::scrollerCount[SETTINGSTYPE_DEBUG] = 1;
     Pulsar::UI::SettingsPanel::optionsPerPagePerScroller[SETTINGSTYPE_DEBUG][0] = 4;

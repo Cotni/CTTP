@@ -268,6 +268,11 @@
   6021 = Disabled
   6200 = The performance monitor will be enabled offline.
   6201 = The performance monitor will be disabled (offline only).
+  6002 = Item Cheats (offline)
+  6030 = Enabled
+  6031 = Disabled
+  6300 = You will be able to use item cheats (offline only).
+  6301 = You will not be able to use item cheats.
   6700 = KMP Info (offline)
   6710 = Disabled
   6711 = All Checkpoints
