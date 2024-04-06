@@ -117,49 +117,46 @@ ItemId ReadItem(u32 hudSlotId) {
 }
 
 void ItemHack(Item::Player* player) {
-    bool allowItemCheats = true;
-
-    if (System::IsItemHackSituation())
-        allowItemCheats = false;
-        
-    if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_ITEMCHEATS) == DEBUGSETTING_ITEMCHEATS_DISABLED)
-        allowItemCheats = false;
+    if (!System::IsItemHackSituation())
+        goto super;
 
     PlayerType type = RaceData::sInstance->racesScenario.players[player->id].playerType;
     if (type == PLAYER_REAL_LOCAL) {
+        if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_ITEMCHEATS) == DEBUGSETTING_ITEMCHEATS_DISABLED)
+            goto super;
+
         const Input::RealControllerHolder* controllerHolder = SectionMgr::sInstance->pad.padInfos[player->hudSlotId].controllerHolder;
         const ControllerType controllerType = controllerHolder->curController->GetType();
         if (controllerType == WHEEL)
-            allowItemCheats = false;
+            goto super;
     } else if (type != PLAYER_GHOST)
-        allowItemCheats = false;
+        goto super;
     
-    if (allowItemCheats) {
-        ItemId ret;
-        if (type == PLAYER_REAL_LOCAL) ret = WriteItem(player->hudSlotId);
-        else ret = ReadItem(player->hudSlotId);
+    ItemId ret;
+    if (type == PLAYER_REAL_LOCAL) ret = WriteItem(player->hudSlotId);
+    else ret = ReadItem(player->hudSlotId);
 
 
-        System& cttp = System::Get();
-        if (ret != 0xFF) cttp.cheatedItem[player->hudSlotId] = ret;
-        ItemId cur = cttp.cheatedItem[player->hudSlotId];
-        Item::PlayerInventory& inventory = player->inventory;
-        if (cur == GOLDEN_MUSHROOM) {
-            inventory.hasGolden = true;
-            if (inventory.goldenTimer == 1 && ret != GOLDEN_MUSHROOM) {
-                inventory.hasGolden = false;
-                inventory.currentItemId = ITEM_NONE;
-                inventory.currentItemCount = 0;
-                cur = ITEM_NONE;
-            }
-        }
-        if (cur != 0xFF) {
-            cttp.cheatedItem[player->hudSlotId] = cur;
-            inventory.currentItemId = static_cast<ItemId>(cur);
-            inventory.currentItemCount = cur == ITEM_NONE ? 0 : 1;
+    System& cttp = System::Get();
+    if (ret != 0xFF) cttp.cheatedItem[player->hudSlotId] = ret;
+    ItemId cur = cttp.cheatedItem[player->hudSlotId];
+    Item::PlayerInventory& inventory = player->inventory;
+    if (cur == GOLDEN_MUSHROOM) {
+        inventory.hasGolden = true;
+        if (inventory.goldenTimer == 1 && ret != GOLDEN_MUSHROOM) {
+            inventory.hasGolden = false;
+            inventory.currentItemId = ITEM_NONE;
+            inventory.currentItemCount = 0;
+            cur = ITEM_NONE;
         }
     }
+    if (cur != 0xFF) {
+        cttp.cheatedItem[player->hudSlotId] = cur;
+        inventory.currentItemId = static_cast<ItemId>(cur);
+        inventory.currentItemCount = cur == ITEM_NONE ? 0 : 1;
+    }
 
+    super:
     player->Update();
 }
 

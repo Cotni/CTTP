@@ -84,7 +84,7 @@ void CtrlRaceDebug::OnUpdate() {
     bool isConsole = Pulsar::IO::sInstance->type != Pulsar::IOType_DOLPHIN;
     if (type == DEBUGSETTING_PANEL_FULL) {
         const Vec3& position = pointers.kartBody->kartPhysicsHolder->physics->position;
-        if (isConsole) {
+        if (isConsole && System::Get().droppedFrames != 0) {
             format = L"X %5.0f\nY %5.0f\nZ %5.0f\nRespawn %2d\nCurCP    %3d\nCur/MaxKCP %2d %2d\n"
                 "Race%%    %01.3f\nITPT      %3d\nKCL %02x %02x\n%s\n%s\nFrames    %3d";
         }
@@ -97,7 +97,7 @@ void CtrlRaceDebug::OnUpdate() {
             raceComp, ITPT, kclFlag, kclVariant, trick, drop, System::Get().droppedFrames);
     }
     else if (type == DEBUGSETTING_PANEL_LIGHT) {
-        if (isConsole) {
+        if (isConsole && System::Get().droppedFrames != 0) {
             format = L"Respawn %2d\nCurCP    %3d\nCurKCP   %2d\nRace%%    %01.3f\nITPT      %3d\nKCL %02x %02x\n%s\n%s\nFrames    %3d";
         }
         else {

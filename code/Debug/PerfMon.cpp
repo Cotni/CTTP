@@ -27,10 +27,13 @@ kmCall(0x800092cc, ExtProcessMeter::Create);
 
 
 void measureBeginCPU(RKSystem* rkSystem) {
-    //if (OS::GetTick() - system->asyncDisplay->tick >= 0xEF000) ++System::Get().droppedFrames;
-    EGG::ProcessMeter* meter = rkSystem->processMeter;
     System* system = &System::Get();
-    if (system != nullptr && meter->bgBar.xSize <= meter->cpuMonitor.bar.xSize) ++system->droppedFrames;
+    if (system != nullptr) {
+        system->droppedFrames += system->frameskipsThisFrame;
+        system->frameskipsThisFrame = -1;
+    }
+
+    EGG::ProcessMeter* meter = rkSystem->processMeter;
     EGG::PerformanceView* view = static_cast<EGG::PerformanceView*>(meter);
     view->measureBeginFrame();
     rkSystem->asyncDisplay->beginRender();
@@ -47,8 +50,11 @@ void measureEndGPU(EGG::PerformanceView* view) {
 kmCall(0x8000968c, measureEndGPU);
 
 //800097a4
-void measureEndCPU(RKSystem* system) {
-    static_cast<EGG::PerformanceView*>(system->processMeter)->measureEndFrame();
+void measureEndCPU(RKSystem* rkSystem) {
+    System* system = &System::Get();
+    if (system != nullptr) ++system->frameskipsThisFrame;
+
+    static_cast<EGG::PerformanceView*>(rkSystem->processMeter)->measureEndFrame();
 }
 kmCall(0x800097a4, measureEndCPU);
 
@@ -125,6 +131,7 @@ void ToggleMonitor() {
     if (!isOnline) isVisible = !Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_PERFMON);
     RKSystem::mInstance.processMeter->EGG::ProcessMeter::setVisible(isVisible);
     System::Get().droppedFrames = 0;
+    System::Get().frameskipsThisFrame = -1;
 }
 RaceLoadHook TogglePerfMon(ToggleMonitor);
 

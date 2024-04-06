@@ -32,6 +32,7 @@ public:
     ItemId cheatedItem[4];
     ItemCheatStream streams[4];
     u32 droppedFrames;
+    u32 frameskipsThisFrame;
     bool isCheatedGhost[38];
 
 };
