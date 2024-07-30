@@ -10,7 +10,7 @@ namespace CTTP {
 namespace UI {
 
 
-bool PatchBMGOnArrow(Pulsar::UI::ExpGhostSelect* ghostSel, u32 bmgId, TextInfo* info) {
+bool PatchBMGOnArrow(Pulsar::UI::ExpGhostSelect* ghostSel, u32 bmgId, Text::Info* info) {
     ghostSel->pageNumber.SetMessage(bmgId, info);
 
     const GhostListEntry& entry = ghostSel->ghostList->entries[ghostSel->page];
@@ -45,7 +45,7 @@ kmCall(0x8063a288, PatchBMGOnArrow);
 kmWrite32(0x8063a364, 0x7fc3f378);
 kmCall(0x8063a384, PatchBMGOnArrow);
 
-void PatchBMGOnActivate(Pulsar::UI::ExpGhostSelect* ghostSel, u32 bmgId, TextInfo* info) {
+void PatchBMGOnActivate(Pulsar::UI::ExpGhostSelect* ghostSel, u32 bmgId, Text::Info* info) {
     bool isCheated = PatchBMGOnArrow(ghostSel, bmgId, info);
     PushButton* initial = isCheated ? &ghostSel->soloTTButton : &ghostSel->challengeGhostButton;
     initial->SelectInitialButton(0);

@@ -2,7 +2,7 @@
 #include <MarioKartWii/Objects/ObjectsMgr.hpp>
 #include <MarioKartWii/Kart/KartManager.hpp>
 #include <MarioKartWii/Item/ItemManager.hpp>
-#include <MarioKartWii/3D/Effect/EffectMgr.hpp>
+#include <MarioKartWii/Effect/EffectMgr.hpp>
 #include <MarioKartWii/Lakitu/LakituManager.hpp>
 #include <MarioKartWii/UI/SectionMgr/SectionMgr.hpp>
 #include <MarioKartWii/UI/Ctrl/CtrlRace/CtrlRaceTime.hpp>
@@ -93,7 +93,7 @@ void ItemMeasurement(Item::Manager* itemMgr) {
 }
 kmCall(0x80554c68, ItemMeasurement);
 
-void EffectsMeasurement(EffectsMgr* effectsMgr) {
+void EffectsMeasurement(Effects::Mgr* effectsMgr) {
     ExtProcessMeter* meter = static_cast<ExtProcessMeter*>(RKSystem::mInstance.processMeter);
     meter->effectsBar.measureBegin();
     effectsMgr->Update();

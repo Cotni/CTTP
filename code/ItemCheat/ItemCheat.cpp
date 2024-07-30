@@ -117,20 +117,24 @@ ItemId ReadItem(u32 hudSlotId) {
 }
 
 void ItemHack(Item::Player* player) {
-    if (!System::IsItemHackSituation())
-        goto super;
+    if (!System::IsItemHackSituation()) {
+        player->Update(); return;
+    }
 
     PlayerType type = RaceData::sInstance->racesScenario.players[player->id].playerType;
     if (type == PLAYER_REAL_LOCAL) {
-        if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_ITEMCHEATS) == DEBUGSETTING_ITEMCHEATS_DISABLED)
-            goto super;
+        if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_ITEMCHEATS) == DEBUGSETTING_ITEMCHEATS_DISABLED) {
+            player->Update(); return;
+        }
 
         const Input::RealControllerHolder* controllerHolder = SectionMgr::sInstance->pad.padInfos[player->hudSlotId].controllerHolder;
         const ControllerType controllerType = controllerHolder->curController->GetType();
-        if (controllerType == WHEEL)
-            goto super;
-    } else if (type != PLAYER_GHOST)
-        goto super;
+        if (controllerType == WHEEL) {
+            player->Update(); return;
+        }
+    } else if (type != PLAYER_GHOST) {
+        player->Update(); return;
+    }
     
     ItemId ret;
     if (type == PLAYER_REAL_LOCAL) ret = WriteItem(player->hudSlotId);
@@ -156,7 +160,6 @@ void ItemHack(Item::Player* player) {
         inventory.currentItemCount = cur == ITEM_NONE ? 0 : 1;
     }
 
-    super:
     player->Update();
 }
 

@@ -114,7 +114,7 @@ void CtrlRaceDebug::OnUpdate() {
         const float curMult = mov->kclSpeedFactor * 100.0f;
         if (kclFlag >= 2 && kclFlag <= 4 && curMult < 100.0f && curSpeed < mov->baseSpeed) {
             ++this->framesOffroad;
-            this->layout.textPaneHandlerArray[0].pane->colour1 = 0xEA0D0DFF;
+            this->layout.textPaneHandlerArray[0].pane->color1[0] = 0xEA0D0DFF;
             if (curSpeed < this->minOffSpeed) this->minOffSpeed = curSpeed;
         }
         length = swprintf(debugPanel, 0x200, format, this->framesOffroad, curMult, this->minOffSpeed);
@@ -122,7 +122,7 @@ void CtrlRaceDebug::OnUpdate() {
 
 
     for (u32 i = 0; i < length; ++i) if (debugPanel[i] >= 0x30 && debugPanel[i] <= 0x39) debugPanel[i] += 0x2430;
-    TextInfo text;
+    Text::Info text;
     text.strings[0] = debugPanel;
     this->SetMessage(Pulsar::UI::BMG_TEXT, &text);
 }
