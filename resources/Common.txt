@@ -273,6 +273,11 @@
   6031 = Disabled
   6300 = You will be able to use item cheats (offline only).
   6301 = You will not be able to use item cheats.
+  6003 = Allow Dolphin Users
+  6040 = No
+  6041 = Yes
+  6400 = Dolphin users will be blocked from joining your friend rooms.
+  6401 = Dolphin users will be allowed to join your friend rooms.
   6700 = KMP Info (offline)
   6710 = Disabled
   6711 = All Checkpoints

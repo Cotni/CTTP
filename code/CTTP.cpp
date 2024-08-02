@@ -13,7 +13,9 @@ void System::SetUserInfo(Pulsar::Network::ResvInfo::UserInfo& userInfo) {
 }
 
 bool System::CheckUserInfo(const Pulsar::Network::ResvInfo::UserInfo& userInfo) {
-    return userInfo.info[0];
+    if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_BLOCK_EMU) == DEBUGSETTING_EMU_BLOCKED)
+        return userInfo.info[0];
+    return true;
 }
 
 void System::AfterInit() {
@@ -27,10 +29,11 @@ void System::AfterInit() {
 
     Pulsar::UI::SettingsPanel::pageCount++;
 
-    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 3; //debug, perf mon, item cheats
+    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 4; //debug, perf mon, item cheats, block emu
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][0] = 4; //disabled, full, light, offroad
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][1] = 2;
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][2] = 2;
+    Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][3] = 2;
 
     Pulsar::UI::SettingsPanel::scrollerCount[SETTINGSTYPE_DEBUG] = 1;
     Pulsar::UI::SettingsPanel::optionsPerPagePerScroller[SETTINGSTYPE_DEBUG][0] = 4;
