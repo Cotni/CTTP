@@ -43,3 +43,4 @@ BuildLoader.bat
 BuildTesting.bat
 testing/testing.hpp
 demangler.py
+BuildCode.bat
