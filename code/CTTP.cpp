@@ -4,6 +4,7 @@
 #include <PulsarEngine/Ghost/UI/GhostUI.hpp>
 #include <PulsarEngine/UI/UI.hpp>
 #include <PulsarEngine/IO/IO.hpp>
+#include <MarioKartWii/Objects/ObjectsMgr.hpp>
 
 namespace CTTP {
 Pulsar::System::Inherit CTTPCreate(System::Create);
@@ -29,11 +30,12 @@ void System::AfterInit() {
 
     Pulsar::UI::SettingsPanel::pageCount++;
 
-    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 4; //debug, perf mon, item cheats, block emu
+    Pulsar::UI::SettingsPanel::radioButtonCount[SETTINGSTYPE_DEBUG] = 5; //debug, perf mon, item cheats, block emu, tt boxes
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][0] = 4; //disabled, full, light, offroad
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][1] = 2;
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][2] = 2;
     Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][3] = 2;
+    Pulsar::UI::SettingsPanel::buttonsPerPagePerRow[SETTINGSTYPE_DEBUG][4] = 2;
 
     Pulsar::UI::SettingsPanel::scrollerCount[SETTINGSTYPE_DEBUG] = 1;
     Pulsar::UI::SettingsPanel::optionsPerPagePerScroller[SETTINGSTYPE_DEBUG][0] = 4;
@@ -88,6 +90,14 @@ void System::CheckGhostCheatStatus(const RKG& decompressed, Pulsar::Ghosts::Mana
     }
 
 }
+
+ObjectsMgr* TTBoxes(ObjectsMgr* objectsMgr) {
+    if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_TTBOXES) == DEBUGSETTING_TTBOXES_ENABLED) {
+        objectsMgr->isTT = false;
+    }
+    return objectsMgr;
+}
+kmBranch(0x8082a650, TTBoxes);
 
 
 }//namespace CTTP

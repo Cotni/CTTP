@@ -278,6 +278,11 @@
   6041 = Yes
   6400 = Dolphin users will be blocked from joining your friend rooms.
   6401 = Dolphin users will be allowed to join your friend rooms.
+  6004 = Item Boxes in TTs
+  6050 = Enabled
+  6051 = Disabled
+  6500 = Item boxes will be visible in Time Trials.
+  6501 = Item boxes will not be visible in Time Trials.
   6700 = KMP Info (offline)
   6710 = Disabled
   6711 = All Checkpoints
