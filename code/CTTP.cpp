@@ -91,13 +91,40 @@ void System::CheckGhostCheatStatus(const RKG& decompressed, Pulsar::Ghosts::Mana
 
 }
 
-ObjectsMgr* TTBoxes(ObjectsMgr* objectsMgr) {
-    if (Pulsar::Settings::Mgr::GetSettingValue(static_cast<Pulsar::Settings::Type>(SETTINGSTYPE_DEBUG), SETTINGDEBUG_RADIO_TTBOXES) == DEBUGSETTING_TTBOXES_ENABLED) {
-        objectsMgr->isTT = false;
-    }
-    return objectsMgr;
+// todo do this correctly
+u8 GetSettingValue(Pulsar::Settings::Type type, u32 setting) {
+    return Pulsar::Settings::Mgr::GetSettingValue(type, setting);
 }
-kmBranch(0x8082a650, TTBoxes);
+asmFunc TTBoxes() {
+    ASM(
+        nofralloc;
+        stwu sp, -0x14(sp);
+        mflr r0;
+        stw r0, 0x4(sp);
+        stw r3, 0x8(sp);
+        stw r4, 0xc(sp);
+        stw r5, 0x10(sp);
+        
+        li r3, SETTINGSTYPE_DEBUG;
+        li r4, SETTINGDEBUG_RADIO_TTBOXES;
+        bl GetSettingValue;
+
+        cmpwi r3, DEBUGSETTING_TTBOXES_ENABLED;
+        lbz r0, 0x55(r15);
+        bne- end;
+        li r0, 0;
+
+        end:
+        lwz r4, 0x4(sp);
+        mtlr r4;
+        lwz r3, 0x8(sp);
+        lwz r4, 0xc(sp);
+        lwz r5, 0x10(sp);
+        addi sp, sp, 0x14;
+        blr
+    )
+}
+kmCall(0x8082757c, TTBoxes);
 
 
 }//namespace CTTP
